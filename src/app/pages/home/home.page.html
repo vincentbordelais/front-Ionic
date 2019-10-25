@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Syvios
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content> 
+  <div class="ion-padding">
+
+    <button ion-button icon-only (click)="test2()">
+      <ion-icon name="test2"></ion-icon>
+      Bouton d'appel de ma fonction test2
+    </button>
+
+    <ion-list>
+      <ion-item *ngFor="let utilisateur of utilisateurs">
+        <ion-label> {{ utilisateur.name }} </ion-label>
+      </ion-item>
+    </ion-list>
+    
+  </div>
+</ion-content>

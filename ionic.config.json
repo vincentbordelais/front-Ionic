@@ -1,5 +1,7 @@
 {
   "name": "front-Ionic1",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

@@ -1,0 +1,52 @@
+<!--
+<ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item>
+          <ion-label position="stacked">Nom :</ion-label>
+          <ion-input type="text" [(ngModel)]="username"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Email :</ion-label>
+          <ion-input type="text" [(ngModel)]="email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Mot de passe :</ion-label>
+          <ion-input type="text" [(ngModel)]="password"></ion-input>
+        </ion-item>
+        <button ion-button type="submit" block (click)="test1()">Envoyer</button>
+      </ion-list>
+</ion-content>
+-->
+
+<ion-grid>
+	<ion-row class="ion-justify-content-center">
+		<ion-col class="ion-align-self-center" size-md="6" size-lg="5" size-xs="12">
+			<div class="ion-text-center">
+				<h4>Votre compte Syvios</h4>
+			</div>
+			<div class="ion-padding">
+				<ion-item>
+					<ion-input type="email" placeholder="Email" [(ngModel)]="email"></ion-input>
+				</ion-item>
+
+				<ion-item>
+					<ion-input type="password" placeholder="Mot de passe" [(ngModel)]="password"></ion-input>
+				</ion-item>
+			</div>
+
+			<div class="ion-padding">
+				<ion-button size="large" expand="block" type="submit" block (click)="loginButton()">Connexion</ion-button>
+			</div>
+		</ion-col>
+	</ion-row>
+</ion-grid>
+
+<!--
+  <ion-button size="large" href="/touchid" expand="block">Connexion</ion-button>
+-->
