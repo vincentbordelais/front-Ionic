@@ -1,5 +1,4 @@
-app-login {
-    
+app-login {   
 }
 
 $white-color: #fff;
@@ -31,4 +30,14 @@ ion-button {
     ion-col {
         border: none;
     }
+}
+
+.errorMessages {
+    font-size: 0.7em;
+    color: red;
+    text-align: center;
+}
+
+.forgetPassword {
+    font-size: 0.5em;
 }
