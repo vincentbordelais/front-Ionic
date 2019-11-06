@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { ApiService } from '../../services/api.service';
+// import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+// import { ApiService } from '../../services/api.service';
 // import { freemem } from 'os';
+// import { User } from 'src/app/auth/user';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,7 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
+  /*
   constructor(public http: HttpClient, public apiService: ApiService) {}
   utilisateurs; any; // je déclare mon tableau utilisateurs
   test2() {
@@ -20,4 +21,5 @@ export class HomePage {
         console.log(data);
     });
   }
+  */
 }

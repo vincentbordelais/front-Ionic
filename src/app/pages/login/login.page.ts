@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import {FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
-@Injectable()
-export class DataService {
-    constructor(private http: HttpClient) {} // J'injecte le client HTTP dans le constructeur
-}
+import { AuthService } from '../../auth/auth.service';
+// import { User } from '../../auth/user';
+
 
 @Component({
   selector: 'app-login',
@@ -34,7 +34,9 @@ export class LoginPage implements OnInit {
 
   constructor(
     public formBuilder: FormBuilder,
-    public http: HttpClient
+    public http: HttpClient,
+    private  authService: AuthService,
+    private  router: Router
   ) {
     this.loginForm = this.formBuilder.group({
       email: new FormControl('', Validators.compose([
@@ -55,17 +57,44 @@ export class LoginPage implements OnInit {
   ngOnInit() { }
 
   loginButton(email: any, password: any) {
-    console.log('email: ', this.loginForm.value.email);
-    console.log('password: ', this.loginForm.value.password);
     email = this.loginForm.value.email;
-    password = this.loginForm.value.password;
-    const user = [email, password];
-    console.log(user);
+    password = this.loginForm.value.password;
+    const emailPassword = [email, password];
+    // console.log(user);
 
-    this.http.post('http://localhost:8080/login', user).subscribe(data => {
+    /*
+    this.http.post('http://localhost:8080/login', user).subscribe(data => {
+     console.log(data);
+    });
+    */
+
+    this.authService.login(emailPassword).subscribe(data => {
       console.log(data);
-    });
+      // this.router.navigateByUrl(`home`);
+
+      /*
+      saveUser() {
+        console.log(this.newUser.email);
+        if (undefined !== this.newUser.email) {
+          // Ajout de la tâche dans le tableau :
+          this.users.push(this.newUser);
+          // Création d'une nouvelle tâche :
+          this.newUser = new User();
+        }
+      }
+      */
+    });
+
 
   }
+  /*
+  // test session :
+this.auth.isLoggedIn().subscribe((state: any) => { // The isLoggedIn() method returns an Observable so you need to subscribe to it
+  if (state) {
+    console.log('Logged IN');
+  } else {
+    console.log('Logged OUT');
+  }
+});
+*/
 }
-
