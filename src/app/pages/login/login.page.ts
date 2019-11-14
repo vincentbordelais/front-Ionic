@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-
+import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
-// import { User } from '../../auth/user';
+import { Observable } from 'rxjs';
+import { resolve } from 'url';
 
 
 @Component({
@@ -35,8 +34,8 @@ export class LoginPage implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public http: HttpClient,
-    private  authService: AuthService,
-    private  router: Router
+    private  router: Router,
+    // private  authService: AuthService,
   ) {
     this.loginForm = this.formBuilder.group({
       email: new FormControl('', Validators.compose([
@@ -54,26 +53,55 @@ export class LoginPage implements OnInit {
     });
   }
 
+  errStatus = '';
+
   ngOnInit() { }
 
-  loginButton(email: any, password: any) {
-    email = this.loginForm.value.email;
-    password = this.loginForm.value.password;
-    const emailPassword = [email, password];
-    // console.log(user);
+  loginButton(email: any, password: any) {
 
-    /*
-    this.http.post('http://localhost:8080/login', user).subscribe(data => {
-     console.log(data);
-    });
-    */
+      email = this.loginForm.value.email;
+      password = this.loginForm.value.password;
+      const user = [email, password];
 
-    this.authService.login(emailPassword).subscribe(data => {
-      console.log(data);
+
+      //console.log(user);
+      // console.log(1);
+      /*
+      this.http.post('http://localhost:8080/login', user).subscribe(
+        (data: any) => {
+          console.log(data);
+        },
+        (err) => console.log(err),
+        // () => { console.log("error") }
+        );
+        // console.log(HttpErrorResponse.headers.status);
+        // HttpErrorResponse {headers: HttpHeaders, status: 404,
+      */
+
+      return new Promise(() => {
+        this.http.post('http://localhost:8080/login', user).subscribe((data: any) => {
+          console.log(data);
+          this.router.navigateByUrl(`home`);
+        },
+
+        (err) => {
+          this.errStatus = 'Status du serveur : ' + err.status;
+          // console.log('Erreur statut :', this.errStatus);
+        });
+      });
+
+
+
+    // Infos du user venant du serveur :
+      // this.authService.login(user).subscribe(data => {
+      // console.log(user);
+      // console.log(2);
+      // console.log(form.value);
+      // console.log(data);
       // this.router.navigateByUrl(`home`);
 
       /*
-      saveUser() {
+      saveUser() {
         console.log(this.newUser.email);
         if (undefined !== this.newUser.email) {
           // Ajout de la tâche dans le tableau :
@@ -82,12 +110,11 @@ export class LoginPage implements OnInit {
           this.newUser = new User();
         }
       }
-      */
+
     });
-
-
+*/
   }
-  /*
+/*
   // test session :
 this.auth.isLoggedIn().subscribe((state: any) => { // The isLoggedIn() method returns an Observable so you need to subscribe to it
   if (state) {

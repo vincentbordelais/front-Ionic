@@ -3,7 +3,8 @@
 	<ion-row class="ion-justify-content-center">
 		<ion-col class="ion-align-self-center" size-md="6" size-lg="5" size-xs="12">
 			<div class="ion-text-center">
-				<h4>Votre compte Syvios</h4>
+        <h4>Bienvenue sur Syvios</h4>
+        <h6>Merci de vous identifier</h6>
       </div>
       <div class="ion-padding">
         <form [formGroup]="loginForm">
@@ -21,6 +22,7 @@
               </div>
             </ng-container>    
           </div>
+         
           <ion-item>
             <ion-input formControlName="password" type="password" placeholder="Mot de passe"></ion-input>
           </ion-item>
@@ -35,14 +37,16 @@
               </div>
             </ng-container>
           </div>
+       
           <div class="ion-padding">
-            <ion-button [disabled]="!loginForm.valid" size="large" expand="block" type="submit" block (click)="loginButton()">Connexion</ion-button>
+            <ion-button [disabled]="!loginForm.valid" size="large" expand="block" type="submit" block (click)="loginButton()">Connexion</ion-button>
           </div>
           <ion-item lines="none">
             <ion-button color="light" slot="end" class="forgetPassword">Mot de passe oublié ?</ion-button>
           </ion-item>
         </form>
       </div>
+      <ion-item><ion-label>{{ errStatus }}</ion-label></ion-item>
 		</ion-col>
 	</ion-row>
 </ion-grid>
