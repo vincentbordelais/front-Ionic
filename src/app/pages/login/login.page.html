@@ -46,7 +46,15 @@
           </ion-item>
         </form>
       </div>
-      <ion-item><ion-label>{{ errStatus }}</ion-label></ion-item>
+      <ion-item lines="none"><ion-label>{{ errStatus }}</ion-label></ion-item>
+      <ion-list>
+          <!-- <ion-item lines="none">{{ user.id }}</ion-item> -->
+          <ion-item lines="none">{{ user.name }}</ion-item>
+          <!-- <ion-item lines="none">{{ user.email }}</ion-item>
+          <ion-item lines="none">{{ user.password }}</ion-item> -->
+          <ion-item lines="none">{{ user.accessToken }}</ion-item>
+          <ion-item lines="none">{{ user.expiresIn }}</ion-item> 
+      </ion-list>
 		</ion-col>
 	</ion-row>
 </ion-grid>

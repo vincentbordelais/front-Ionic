@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../auth/auth.service';
-import { Observable } from 'rxjs';
-import { resolve } from 'url';
-
+import { Storage } from '@ionic/storage';
+import { User } from 'src/app/auth/user';
+// import { HomePage } from 'src/app/pages/home/home.page';
+// import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -34,8 +34,9 @@ export class LoginPage implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public http: HttpClient,
-    private  router: Router,
-    // private  authService: AuthService,
+    private router: Router,
+    private storage: Storage,
+    // public navCtrl: NavController,
   ) {
     this.loginForm = this.formBuilder.group({
       email: new FormControl('', Validators.compose([
@@ -55,65 +56,52 @@ export class LoginPage implements OnInit {
 
   errStatus = '';
 
-  ngOnInit() { }
+  user: User =
+    {
+      id: null,
+      name: '',
+      email: '',
+      password: '',
+      accessToken: '',
+      expiresIn: null
+    };
+
+  ngOnInit() {} // fonction exécutée à l'initialisation de la page.
 
   loginButton(email: any, password: any) {
 
-      email = this.loginForm.value.email;
-      password = this.loginForm.value.password;
-      const user = [email, password];
+    email = this.loginForm.value.email;
+    password = this.loginForm.value.password;
+    const userForm = [email, password];
 
+    return new Promise((user) => {
+      this.http.post('http://localhost:8080/login', userForm).subscribe((data: any) => {
+        console.log('1');
+        console.log(data);
+        console.log('2');
+        console.log(data.userServer);
+        this.storage.set('ACCESS_TOKEN', data.access_token); // mais comment lire le token storé ?
 
-      //console.log(user);
-      // console.log(1);
-      /*
-      this.http.post('http://localhost:8080/login', user).subscribe(
-        (data: any) => {
-          console.log(data);
-        },
-        (err) => console.log(err),
-        // () => { console.log("error") }
-        );
-        // console.log(HttpErrorResponse.headers.status);
-        // HttpErrorResponse {headers: HttpHeaders, status: 404,
-      */
+        this.user.id = data.userServer.id;
+        this.user.name = data.userServer.name;
+        this.user.email = data.userServer.email;
+        this.user.password = data.userServer.password;
+        this.user.accessToken = data.access_token;
+        this.user.expiresIn = data.expires_in;
 
-      return new Promise(() => {
-        this.http.post('http://localhost:8080/login', user).subscribe((data: any) => {
-          console.log(data);
-          this.router.navigateByUrl(`home`);
-        },
+        // this.navCtrl.push(HomePage, {user: name});  // dépressié
+        // this.router.navigateByUrl(`home`); // OK
 
-        (err) => {
-          this.errStatus = 'Status du serveur : ' + err.status;
-          // console.log('Erreur statut :', this.errStatus);
-        });
+      },
+      (err) => {
+        this.errStatus = 'Status du serveur : ' + err.status;
       });
-
-
-
-    // Infos du user venant du serveur :
-      // this.authService.login(user).subscribe(data => {
-      // console.log(user);
-      // console.log(2);
-      // console.log(form.value);
-      // console.log(data);
-      // this.router.navigateByUrl(`home`);
-
-      /*
-      saveUser() {
-        console.log(this.newUser.email);
-        if (undefined !== this.newUser.email) {
-          // Ajout de la tâche dans le tableau :
-          this.users.push(this.newUser);
-          // Création d'une nouvelle tâche :
-          this.newUser = new User();
-        }
-      }
-
     });
-*/
   }
+}
+
+
+
 /*
   // test session :
 this.auth.isLoggedIn().subscribe((state: any) => { // The isLoggedIn() method returns an Observable so you need to subscribe to it
@@ -124,4 +112,30 @@ this.auth.isLoggedIn().subscribe((state: any) => { // The isLoggedIn() method re
   }
 });
 */
-}
+
+/* // voir https://devdactic.com/ionic-4-login-angular/
+  checkToken() {
+    this.storage.get(ACCESS_TOKEN).then(res => {
+      if (res) {
+        this.authenticationState.next(true);
+      }
+    })
+  }
+
+  login() {
+    return this.storage.set(ACCESS_TOKEN, 'Bearer 1234567').then(() => {
+      this.authenticationState.next(true);
+    });
+  }
+
+  logout() {
+    return this.storage.remove(ACCESS_TOKEN).then(() => {
+      this.authenticationState.next(false);
+    });
+  }
+
+  isAuthenticated() {
+    return this.authenticationState.value;
+  }
+*/
+
