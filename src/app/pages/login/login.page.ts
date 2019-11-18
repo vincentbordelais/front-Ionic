@@ -3,9 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
-import { User } from 'src/app/auth/user';
-// import { HomePage } from 'src/app/pages/home/home.page';
-// import { NavController } from '@ionic/angular';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -36,7 +34,7 @@ export class LoginPage implements OnInit {
     public http: HttpClient,
     private router: Router,
     private storage: Storage,
-    // public navCtrl: NavController,
+    public userService: UserService,
   ) {
     this.loginForm = this.formBuilder.group({
       email: new FormControl('', Validators.compose([
@@ -55,16 +53,7 @@ export class LoginPage implements OnInit {
   }
 
   errStatus = '';
-
-  user: User =
-    {
-      id: null,
-      name: '',
-      email: '',
-      password: '',
-      accessToken: '',
-      expiresIn: null
-    };
+  user = this.userService.user;
 
   ngOnInit() {} // fonction exécutée à l'initialisation de la page.
 
@@ -74,12 +63,15 @@ export class LoginPage implements OnInit {
     password = this.loginForm.value.password;
     const userForm = [email, password];
 
-    return new Promise((user) => {
+
+    return new Promise(() => {
       this.http.post('http://localhost:8080/login', userForm).subscribe((data: any) => {
         console.log('1');
         console.log(data);
         console.log('2');
         console.log(data.userServer);
+
+
         this.storage.set('ACCESS_TOKEN', data.access_token); // mais comment lire le token storé ?
 
         this.user.id = data.userServer.id;

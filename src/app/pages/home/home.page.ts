@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-// import { ActivatedRoute } from '@angular/router';
-// import { User } from 'src/app/auth/user';
+import { ActivatedRoute } from '@angular/router';
 // import { userInfo } from 'os';
-
+// import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+// import { ApiService } from '../../services/api.service';
+// import { freemem } from 'os';
 
 @Component({
   selector: 'app-home',
@@ -11,8 +12,12 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {
-
+  constructor(private route: ActivatedRoute) {
+    /*
+    this.route.params.pipe(user).subscribe(params => {
+      user.name
+    });
+    */
   }
 
 
