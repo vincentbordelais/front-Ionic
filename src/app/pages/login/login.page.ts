@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
+
 
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
@@ -32,9 +34,10 @@ export class LoginPage implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public http: HttpClient,
-    private router: Router,
     private storage: Storage,
     public userService: UserService,
+    private router: Router,
+
   ) {
     this.loginForm = this.formBuilder.group({
       email: new FormControl('', Validators.compose([
@@ -72,7 +75,9 @@ export class LoginPage implements OnInit {
         console.log(data.userServer);
 
 
-        this.storage.set('ACCESS_TOKEN', data.access_token); // mais comment lire le token storé ?
+        this.storage.set('ACCESS_TOKEN', data.access_token);
+        this.storage.set('USER_NAME', data.userServer.name);
+        // On peut les lire via Chrome Dev Tools: l'onglet Application, menu Web SQL/.../_ionickv
 
         this.user.id = data.userServer.id;
         this.user.name = data.userServer.name;
@@ -81,8 +86,20 @@ export class LoginPage implements OnInit {
         this.user.accessToken = data.access_token;
         this.user.expiresIn = data.expires_in;
 
-        // this.navCtrl.push(HomePage, {user: name});  // dépressié
+        // userName = this.user.name;
+        // this.navCtrl.push(HomePage, {user: name});  // navController : dépressié
         // this.router.navigateByUrl(`home`); // OK
+        /*this.navCtrl.navigateRoot('home', {
+          id: '123',
+          name: 'Toto'
+        });*/
+
+        let userId: number = data.userServer.id;
+        let userName: string = data.userServer.name;
+
+        // this.router.navigateByUrl('home/12/vinc');
+        // OU BIEN :
+        this.router.navigate(['/home', userId, userName]);
 
       },
       (err) => {
@@ -91,6 +108,11 @@ export class LoginPage implements OnInit {
     });
   }
 }
+
+
+
+
+
 
 
 

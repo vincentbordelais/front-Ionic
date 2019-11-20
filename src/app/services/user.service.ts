@@ -5,8 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class UserService {
 
-  constructor() { }
-  user = {
+  public user = {
     id: null,
     name: '',
     email: '',
@@ -15,4 +14,7 @@ export class UserService {
     expiresIn: '',
     isConnected: null
   };
+
+  constructor() { }
+
 }
