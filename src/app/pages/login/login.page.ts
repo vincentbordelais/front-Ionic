@@ -86,14 +86,6 @@ export class LoginPage implements OnInit {
         this.user.accessToken = data.access_token;
         this.user.expiresIn = data.expires_in;
 
-        // userName = this.user.name;
-        // this.navCtrl.push(HomePage, {user: name});  // navController : dépressié
-        // this.router.navigateByUrl(`home`); // OK
-        /*this.navCtrl.navigateRoot('home', {
-          id: '123',
-          name: 'Toto'
-        });*/
-
         let userId: number = data.userServer.id;
         let userName: string = data.userServer.name;
 
